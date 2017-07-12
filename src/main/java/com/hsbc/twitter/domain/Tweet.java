@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import static lombok.AccessLevel.PRIVATE;
 
 @Data
+@NoArgsConstructor
 public class Tweet {
 
     @NotBlank
@@ -18,5 +19,10 @@ public class Tweet {
 
     @Setter(PRIVATE)
     private LocalDateTime createDate = LocalDateTime.now(Clock.systemUTC());
+
+    public Tweet(String message) {
+        this.message = message;
+    }
+
 
 }
