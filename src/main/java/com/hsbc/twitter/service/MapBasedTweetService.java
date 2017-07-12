@@ -1,6 +1,7 @@
 package com.hsbc.twitter.service;
 
 import com.hsbc.twitter.domain.Tweet;
+import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -11,6 +12,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Service
 public class MapBasedTweetService implements TweetService {
 
     private Map<String, List<Tweet>> userTweets = new ConcurrentHashMap<>();
@@ -27,18 +29,20 @@ public class MapBasedTweetService implements TweetService {
     }
 
     @Override
+    public List<Tweet> getTweetsFor(String username) {
+        return userTweets.getOrDefault(username, Collections.emptyList());
+    }
+
+    @Override
     public List<Tweet> getTweetsFor(String username, Page page) {
-        return getTweetsPage(getTweetsStreamFor(username), page);
+        return getTweetsPage(getTweetsFor(username).stream(), page);
     }
 
     @Override
     public List<Tweet> getOrderedTweetsFor(String username, Page page) {
-        return getTweetsPage(getTweetsStreamFor(username).sorted(Comparator.comparing(Tweet::getCreateDate).reversed()), page);
+        return getTweetsPage(getTweetsFor(username).stream().sorted(Comparator.comparing(Tweet::getCreateDate).reversed()), page);
     }
 
-    private Stream<Tweet> getTweetsStreamFor(String username) {
-        return userTweets.getOrDefault(username, Collections.emptyList()).stream();
-    }
 
     private List<Tweet> getTweetsPage(Stream<Tweet> stream, Page page) {
         return stream.skip(page.getPage() * page.getSize()).limit(page.getSize()).collect(Collectors.toList());

@@ -29,7 +29,7 @@ public class MapBasedTweetServiceTest {
     @Test
     public void shouldGetTweetsForReturnEmptyListForUnknownUser() throws Exception {
         //when
-        List<Tweet> result = service.getTweetsFor("unknown", page);
+        List<Tweet> result = service.getTweetsFor("unknown");
         //then
         assertThat(result.isEmpty());
     }
@@ -39,7 +39,7 @@ public class MapBasedTweetServiceTest {
         //given
         List<Tweet> userTweets = generateSavedTweets("user", 3);
         //when
-        List<Tweet> result = service.getTweetsFor("user", page);
+        List<Tweet> result = service.getTweetsFor("user");
         //then
         assertThat(result).containsExactlyElementsOf(userTweets);
     }
