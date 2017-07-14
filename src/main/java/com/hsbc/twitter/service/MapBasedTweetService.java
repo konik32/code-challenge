@@ -34,18 +34,13 @@ public class MapBasedTweetService implements TweetService {
     }
 
     @Override
-    public List<Tweet> getTweetsFor(String username, Page page) {
-        return getTweetsPage(getTweetsFor(username).stream(), page);
-    }
-
-    @Override
     public List<Tweet> getOrderedTweetsFor(String username, Page page) {
-        return getTweetsPage(getTweetsFor(username).stream().sorted(Comparator.comparing(Tweet::getCreateDate).reversed()), page);
+        return getTweetsFor(username).stream()
+                .sorted(Comparator.comparing(Tweet::getCreateDate).reversed())
+                .skip(page.getPage()*page.getSize())
+                .limit(page.getSize())
+                .collect(Collectors.toList());
     }
 
-
-    private List<Tweet> getTweetsPage(Stream<Tweet> stream, Page page) {
-        return stream.skip(page.getPage() * page.getSize()).limit(page.getSize()).collect(Collectors.toList());
-    }
 
 }

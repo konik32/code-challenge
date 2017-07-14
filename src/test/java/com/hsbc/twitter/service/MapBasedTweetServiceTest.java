@@ -45,16 +45,6 @@ public class MapBasedTweetServiceTest {
     }
 
     @Test
-    public void shouldGetTweetsForReturnSavedUserTweetsPage() throws Exception {
-        //given
-        List<Tweet> userTweets = generateSavedTweets("user", 6);
-        //when
-        List<Tweet> result = service.getTweetsFor("user", new Page(1,2));
-        //then
-        assertThat(result).containsExactlyElementsOf(userTweets.subList(2,4));
-    }
-
-    @Test
     public void shouldGetOrderedTweetsForReturnUsersTweetsInReverseChronologicalOrder() throws Exception {
         //given
         List<Tweet> userTweets = generateSavedTweets(this::createAndSleep,"user", 3);

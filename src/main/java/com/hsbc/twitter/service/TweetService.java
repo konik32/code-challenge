@@ -8,6 +8,5 @@ public interface TweetService {
 
     Tweet save(String username, Tweet tweet);
     List<Tweet> getTweetsFor(String username);
-    List<Tweet> getTweetsFor(String username, Page page);
     List<Tweet> getOrderedTweetsFor(String username, Page page);
 }
