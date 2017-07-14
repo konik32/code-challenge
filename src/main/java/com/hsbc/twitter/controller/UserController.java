@@ -3,6 +3,7 @@ package com.hsbc.twitter.controller;
 import com.hsbc.twitter.domain.Tweet;
 import com.hsbc.twitter.exception.UserNotFoundException;
 import com.hsbc.twitter.service.*;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,7 @@ public class UserController {
     }
 
     @PostMapping(path = USER_CONNECTION_PATH)
+    @ApiOperation(value = "Create new user connection")
     public ResponseEntity<Void> addConnection(@PathVariable String from, @PathVariable String to){
         assertUserExists(from);
         assertUserExists(to);
@@ -39,6 +41,7 @@ public class UserController {
     }
 
     @GetMapping(path = USER_WALL_PATH)
+    @ApiOperation(value = "User wall")
     public List<Tweet> wall(@PathVariable String username,
                             @RequestParam(required = false, defaultValue = "0") Integer page,
                             @RequestParam(required = false, defaultValue = "10") Integer size){
@@ -47,6 +50,7 @@ public class UserController {
     }
 
     @GetMapping(path = USER_TIMELINE_PATH)
+    @ApiOperation(value = "User timeline")
     public List<Tweet> timeline(@PathVariable String username,
                                 @RequestParam(required = false, defaultValue = "0") Integer page,
                                 @RequestParam(required = false, defaultValue = "10") Integer size){

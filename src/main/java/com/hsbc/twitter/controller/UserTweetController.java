@@ -3,6 +3,7 @@ package com.hsbc.twitter.controller;
 import com.hsbc.twitter.domain.Tweet;
 import com.hsbc.twitter.service.TweetService;
 import com.hsbc.twitter.service.UserService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,7 @@ public class UserTweetController {
     }
 
     @PostMapping(path = USER_TWEET_PATH)
+    @ApiOperation("Create new user tweet")
     public ResponseEntity<Tweet> create(@PathVariable("username") String username, @RequestBody Tweet tweet){
         if(!userService.exists(username))
             userService.save(username);
