@@ -9,13 +9,13 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class MapBasedUserConnectionServiceTest {
+public class MapBasedUserServiceTest {
 
-    private MapBasedUserConnectionService service;
+    private MapBasedUserService service;
 
     @Before
     public void setUp() throws Exception {
-        service = new MapBasedUserConnectionService();
+        service = new MapBasedUserService();
     }
 
     @Test
@@ -34,6 +34,22 @@ public class MapBasedUserConnectionServiceTest {
         Set<String> result = service.getUsersFollowedBy("user");
         //then
         assertThat(result).containsExactlyInAnyOrder("user1", "user2");
+    }
+
+    @Test
+    public void shouldSaveUser() throws Exception {
+        //when
+        service.save("user");
+        //then
+        assertThat(service.exists("user")).isTrue();
+    }
+
+
+    @Test
+    public void shouldExistsReturnFalseForUnknownUser() throws Exception {
+        //when
+        //then
+        assertThat(service.exists("unknown")).isFalse();
     }
 
 

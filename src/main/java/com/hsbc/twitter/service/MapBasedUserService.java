@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 @Service
-public class MapBasedUserConnectionService implements UserConnectionService {
+public class MapBasedUserService implements UserConnectionService, UserService {
 
     private Map<String, Set<String>> userConnections = new ConcurrentHashMap<>();
 
@@ -26,5 +26,16 @@ public class MapBasedUserConnectionService implements UserConnectionService {
     @Override
     public Set<String> getUsersFollowedBy(String username) {
         return userConnections.getOrDefault(username, Collections.emptySet());
+    }
+
+    @Override
+    public String save(String username) {
+        userConnections.putIfAbsent(username, new CopyOnWriteArraySet<>());
+        return username;
+    }
+
+    @Override
+    public boolean exists(String username) {
+        return userConnections.containsKey(username);
     }
 }
