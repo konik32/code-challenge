@@ -19,6 +19,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(UserTweetController.class)
@@ -59,6 +60,15 @@ public class UserTweetControllerTest {
         ArgumentCaptor<Tweet> captor = ArgumentCaptor.forClass(Tweet.class);
         verify(tweetService,times(1)).save(eq("user"),captor.capture() );
         assertThat(captor.getValue().getMessage()).isEqualTo("message");
+    }
+
+    @Test
+    public void shouldRespondWithBadRequestOnTooLongMessage() throws Exception {
+        //given
+        String tweet = "{\"message\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate\"}";
+        //when
+        mockMvc.perform(post(USER_TWEET_PATH,"user").contentType(APPLICATION_JSON).content(tweet))
+        .andExpect(status().isBadRequest());
     }
 
 }

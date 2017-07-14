@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 import static com.hsbc.twitter.controller.Paths.USER_TWEET_PATH;
 
 @RestController
@@ -28,7 +30,7 @@ public class UserTweetController {
 
     @PostMapping(path = USER_TWEET_PATH)
     @ApiOperation("Create new user tweet")
-    public ResponseEntity<Tweet> create(@PathVariable("username") String username, @RequestBody Tweet tweet){
+    public ResponseEntity<Tweet> create(@PathVariable("username") String username, @Valid @RequestBody Tweet tweet){
         if(!userService.exists(username))
             userService.save(username);
         return ResponseEntity.status(HttpStatus.CREATED).body(tweetService.save(username, tweet));

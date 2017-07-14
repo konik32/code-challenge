@@ -1,9 +1,12 @@
 package com.hsbc.twitter.domain;
 
-import lombok.*;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.validation.constraints.Max;
 import java.time.Clock;
 import java.time.LocalDateTime;
 
@@ -14,10 +17,11 @@ import static lombok.AccessLevel.PRIVATE;
 public class Tweet {
 
     @NotBlank
-    @Max(140)
+    @Length(max = 140)
     private String message;
 
     @Setter(PRIVATE)
+    @ApiModelProperty(hidden = true)
     private LocalDateTime createDate = LocalDateTime.now(Clock.systemUTC());
 
     public Tweet(String message) {
