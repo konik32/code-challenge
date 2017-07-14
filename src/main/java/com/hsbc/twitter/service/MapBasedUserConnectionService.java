@@ -1,11 +1,14 @@
 package com.hsbc.twitter.service;
 
+import org.springframework.stereotype.Service;
+
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+@Service
 public class MapBasedUserConnectionService implements UserConnectionService {
 
     private Map<String, Set<String>> userConnections = new ConcurrentHashMap<>();
